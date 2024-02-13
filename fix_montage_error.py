@@ -69,9 +69,15 @@ def correct_file_name(file_directory, montage_correct, montage_error):
                 try:
                     shutil.copyfile(f'{sub_dir}/{file_error}.ncs', f'{sub_dir_renamed}/{file_correct}.ncs')
                     if file_error != file_correct:
-                        logging.info(f'rename: {sub_dir}/{file_error}.ncs to {sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}')
+                        logging.info(
+                            f'rename: {sub_dir}/{file_error}.ncs to '
+                            f'{sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}'
+                        )
                     else:
-                        logging.info(f'copy: {sub_dir}/{file_error}.ncs to {sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}')
+                        logging.info(
+                            f'copy: {sub_dir}/{file_error}.ncs to '
+                            f'{sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}'
+                        )
                 except OSError as e:
                     print(f'Error copying {sub_dir}/{file_error}: {e}')
                     logging.error(f'Error copying {sub_dir}/{file_error}: {e}')
