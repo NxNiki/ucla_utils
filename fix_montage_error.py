@@ -41,7 +41,7 @@ def correct_file_name(file_directory, montage_correct, montage_error):
 
     current_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M")
     logging.basicConfig(
-        filename=f'fix_montage_error_{current_datetime}.log',
+        filename=f'log_fix_montage_error_{current_datetime}.log',
         level=logging.DEBUG,
         format='%(asctime)s - %(levelname)s - %(message)s',
     )
