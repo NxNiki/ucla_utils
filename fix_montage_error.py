@@ -16,8 +16,15 @@ import os
 import shutil
 import glob
 import re
+import logging
 
 SKIP_EXISTING_FILES = True
+
+logging.basicConfig(
+    filename='fix_montage_error.log',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+)
 
 
 def generate_file_name(montage):
@@ -54,18 +61,21 @@ def correct_file_name(file_directory, montage_correct, montage_error):
                     continue
 
                 if not os.path.exists(sub_dir + '/' + file_error + '.ncs'):
-                    print(f'missing file: {sub_dir}/{file_error}.ncs')
+                    logging.info(f'missing file: {sub_dir}/{file_error}.ncs')
+                    continue
 
                 if file_error != file_correct:
-                    print(f'rename: {file_error} to {file_correct} on dir: {sub_dir}')
+                    logging.info(f'rename: {file_error} to {file_correct} on dir: {sub_dir}')
                 else:
-                    print(f'copy: {file_error} to {file_correct} on dir: {sub_dir}')
+                    logging.info(f'copy: {file_error} to {file_correct} on dir: {sub_dir}')
 
                 shutil.copyfile(f'{sub_dir} /{file_error}.ncs', f'{sub_dir_renamed}/{file_correct}.ncs')
         else:
             if os.path.isdir(sub_dir):
+                logging.info(f'copy directory: {sub_dir}')
                 shutil.copytree(sub_dir, sub_dir_renamed, dirs_exist_ok=True)
             else:
+                logging.info(f'copy file: {sub_dir}')
                 shutil.copyfile(sub_dir, sub_dir_renamed)
 
 
