@@ -82,7 +82,7 @@ def correct_file_name(file_directory, montage_correct, montage_error):
 
 
 if __name__ == '__main__':
-    file_directory = r'/Users/xinniu/Library/CloudStorage/Box-Box/Vwani_Movie/568/
+    file_directory = r'/Users/xinniu/Library/CloudStorage/Box-Box/Vwani_Movie/568/'
     
     # Putting 'PZ' at the to so that files for this channel is not renamed.
     montage_error = [
