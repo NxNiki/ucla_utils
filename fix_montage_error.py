@@ -17,6 +17,8 @@ import shutil
 import glob
 import re
 
+SKIP_EXISTING_FILES = True
+
 
 def generate_file_name(montage):
     file_name = []
@@ -47,6 +49,9 @@ def correct_file_name(file_directory, montage_correct, montage_error):
 
         if re.match(r''+file_directory+'EXP*', sub_dir):
             for file_error, file_correct in zip(file_name_error, file_name_correct):
+                if SKIP_EXISTING_FILES and os.path.exists(sub_dir_renamed + '/' + file_correct + '.ncs'):
+                    continue
+
                 if file_error != file_correct:
                     print(f'rename: {file_error} to {file_correct} on dir: {sub_dir}')
                 else:
