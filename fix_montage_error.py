@@ -17,14 +17,9 @@ import shutil
 import glob
 import re
 import logging
+import datetime
 
 SKIP_EXISTING_FILES = True
-
-logging.basicConfig(
-    filename='fix_montage_error.log',
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-)
 
 
 def generate_file_name(montage):
@@ -43,6 +38,13 @@ def rename_directory(directory):
 
 
 def correct_file_name(file_directory, montage_correct, montage_error):
+
+    current_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    logging.basicConfig(
+        filename=f'fix_montage_error{current_datetime}.log',
+        level=logging.DEBUG,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+    )
 
     file_name_correct = generate_file_name(montage_correct)
     file_name_error = generate_file_name(montage_error)
