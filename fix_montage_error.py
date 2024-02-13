@@ -49,7 +49,10 @@ def correct_file_name(file_directory, montage_correct, montage_error):
             for file_error, file_correct in zip(file_name_error, file_name_correct):
                 if file_error != file_correct:
                     print(f'rename: {file_error} to {file_correct} on dir: {sub_dir}')
-                    shutil.copyfile(sub_dir + '/' + file_error + '.ncs', sub_dir_renamed + '/' + file_correct + '.ncs')
+                else:
+                    print(f'copy: {file_error} to {file_correct} on dir: {sub_dir}')
+
+                shutil.copyfile(sub_dir + '/' + file_error + '.ncs', sub_dir_renamed + '/' + file_correct + '.ncs')
         else:
             if os.path.isdir(sub_dir):
                 shutil.copytree(sub_dir, sub_dir_renamed, dirs_exist_ok=True)
