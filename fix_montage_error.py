@@ -44,6 +44,7 @@ def correct_file_name(file_directory, montage_correct, montage_error):
     for sub_dir in sub_directories:
         sub_dir_renamed = rename_directory(sub_dir)
 
+        # create directory if not exists and not a file (end with .xxx).
         if not os.path.exists(sub_dir_renamed) and not re.search(r'\..*', sub_dir_renamed):
             os.makedirs(sub_dir_renamed)
 
