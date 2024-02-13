@@ -39,9 +39,9 @@ def rename_directory(directory):
 
 def correct_file_name(file_directory, montage_correct, montage_error):
 
-    current_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    current_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M")
     logging.basicConfig(
-        filename=f'fix_montage_error{current_datetime}.log',
+        filename=f'fix_montage_error_{current_datetime}.log',
         level=logging.DEBUG,
         format='%(asctime)s - %(levelname)s - %(message)s',
     )
@@ -67,11 +67,11 @@ def correct_file_name(file_directory, montage_correct, montage_error):
                     continue
 
                 if file_error != file_correct:
-                    logging.info(f'rename: {file_error} to {file_correct} on dir: {sub_dir}')
+                    logging.info(f'rename: {sub_dir}/{file_error}.ncs to {sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}')
                 else:
-                    logging.info(f'copy: {file_error} to {file_correct} on dir: {sub_dir}')
+                    logging.info(f'copy: {sub_dir}/{file_error}.ncs to {sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}')
 
-                shutil.copyfile(f'{sub_dir} /{file_error}.ncs', f'{sub_dir_renamed}/{file_correct}.ncs')
+                shutil.copyfile(f'{sub_dir}/{file_error}.ncs', f'{sub_dir_renamed}/{file_correct}.ncs')
         else:
             if os.path.isdir(sub_dir):
                 logging.info(f'copy directory: {sub_dir} to {sub_dir_renamed}')
