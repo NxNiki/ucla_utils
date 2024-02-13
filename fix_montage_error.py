@@ -77,7 +77,7 @@ def correct_file_name(file_directory, montage_correct, montage_error):
                 logging.info(f'copy directory: {sub_dir} to {sub_dir_renamed}')
                 shutil.copytree(sub_dir, sub_dir_renamed, dirs_exist_ok=True)
             else:
-                logging.info(f'copy file: {sub_dir}')
+                logging.info(f'copy file: {sub_dir} to {sub_dir_renamed}')
                 shutil.copyfile(sub_dir, sub_dir_renamed)
 
 
