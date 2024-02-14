@@ -25,7 +25,10 @@ SKIP_EXISTING_FILES = True
 def generate_file_name(montage):
     file_name = []
     for tag, count in montage:
-        file_name.extend([tag + str(i) for i in range(1, count + 1)])
+        if count > 1:
+            file_name.extend([tag + str(i) for i in range(1, count + 1)])
+        else:
+            file_name.extend([tag])
     return file_name
 
 
@@ -38,7 +41,6 @@ def rename_directory(directory):
 
 
 def correct_file_name(file_directory, montage_correct, montage_error):
-
     current_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M")
     logging.basicConfig(
         filename=f'log_fix_montage_error_{current_datetime}.log',
@@ -58,29 +60,38 @@ def correct_file_name(file_directory, montage_correct, montage_error):
             os.makedirs(sub_dir_renamed)
 
         if re.match(r''+file_directory+'EXP*', sub_dir):
-            for file_error, file_correct in zip(file_name_error, file_name_correct):
-                if SKIP_EXISTING_FILES and os.path.exists(sub_dir_renamed + '/' + file_correct + '.ncs'):
+            for file_error, file_correct in zip(file_name_error[2:], file_name_correct[2:]):
+                # skip file if already copied:
+                if SKIP_EXISTING_FILES and os.path.exists(f'{sub_dir_renamed}/{file_correct}.ncs'):
                     continue
 
-                if not os.path.exists(sub_dir + '/' + file_error + '.ncs'):
+                file_error_full_path = glob.glob(f'{sub_dir}/{file_error}*')
+                # skip if file does not exist in source:
+                if len(file_error_full_path) == 0:
                     logging.info(f'missing file: {sub_dir}/{file_error}.ncs')
                     continue
 
+                if len(file_error_full_path) > 1:
+                    logging.warning(
+                        f'multiple files found with pattern: {sub_dir}/{file_error}. '
+                        f'Only first one is copied'
+                    )
+                file_error_full_path = file_error_full_path[0]
                 try:
-                    shutil.copyfile(f'{sub_dir}/{file_error}.ncs', f'{sub_dir_renamed}/{file_correct}.ncs')
+                    shutil.copyfile(file_error_full_path, f'{sub_dir_renamed}/{file_correct}.ncs')
                     if file_error != file_correct:
                         logging.info(
-                            f'rename: {sub_dir}/{file_error}.ncs to '
+                            f'rename: {file_error_full_path} to '
                             f'{sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}'
                         )
                     else:
                         logging.info(
-                            f'copy: {sub_dir}/{file_error}.ncs to '
+                            f'copy: {file_error_full_path} to '
                             f'{sub_dir_renamed}/{file_correct}.ncs on dir: {sub_dir}'
                         )
                 except OSError as e:
-                    print(f'Error copying {sub_dir}/{file_error}: {e}')
-                    logging.error(f'Error copying {sub_dir}/{file_error}: {e}')
+                    print(f'Error copying {file_error_full_path}: {e}')
+                    logging.error(f'Error copying {file_error_full_path}: {e}')
         else:
             try:
                 if os.path.isdir(sub_dir):
@@ -97,7 +108,7 @@ def correct_file_name(file_directory, montage_correct, montage_error):
 if __name__ == '__main__':
     file_directory = r'/Users/xinniu/Library/CloudStorage/Box-Box/Vwani_Movie/568/'
     
-    # Putting 'PZ' at the to so that files for this channel is not renamed.
+    # Putting 'PZ' at top so that files for this channel is not renamed.
     montage_error = [
         ['PZ', 1],
         ['RMH', 8],
