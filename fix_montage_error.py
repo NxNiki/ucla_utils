@@ -60,7 +60,7 @@ def correct_file_name(file_directory, montage_correct, montage_error):
             os.makedirs(sub_dir_renamed)
 
         if re.match(r''+file_directory+'EXP*', sub_dir):
-            for file_error, file_correct in zip(file_name_error[2:], file_name_correct[2:]):
+            for file_error, file_correct in zip(file_name_error, file_name_correct):
                 # skip file if already copied:
                 if SKIP_EXISTING_FILES and os.path.exists(f'{sub_dir_renamed}/{file_correct}.ncs'):
                     continue
