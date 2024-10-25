@@ -10,6 +10,8 @@ Example:
     error file:   [A1, A2, A3, B1, B2, B3, B4, C1, C2, ...]
 
 B4 is renamed to C1, C1 renamed to C2, etc.
+
+This is outdated, see: https://github.com/NxNiki/nwbPipeline/tree/main/tools
 """
 
 import os
