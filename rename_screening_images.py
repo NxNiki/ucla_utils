@@ -27,6 +27,14 @@ import glob
 import csv
 import shutil
 
+INPUT_PATH = "/Users/XinNiuAdmin/Library/CloudStorage/Box-Box/finished_gallery"
+OUTPUT_PATH = "/Users/XinNiuAdmin/Library/CloudStorage/Box-Box/finished_gallery_renamed"
+LOG_FILE = "/Users/XinNiuAdmin/Library/CloudStorage/Box-Box/finished_gallery_renamed/rename_log.csv"
+
+CLASS_CODE_INDEX = [0, 2, 15, 6, 27]  # [People Animals Buildings Men Plants]
+DELETE_EXISTING_FILES = True
+
+
 def make_name(img_name:str, index:int, class_code:str, suffix:str) -> str:
 
     if re.search(r'te?xt_?\d', img_name) or suffix == '_text':
@@ -44,13 +52,6 @@ def make_name(img_name:str, index:int, class_code:str, suffix:str) -> str:
     return new_name
 
 if __name__ == "__main__":
-
-    INPUT_PATH = "/Users/XinNiuAdmin/Library/CloudStorage/Box-Box/finished_gallery"
-    OUTPUT_PATH = "/Users/XinNiuAdmin/Library/CloudStorage/Box-Box/finished_gallery_renamed"
-    LOG_FILE = "/Users/XinNiuAdmin/Library/CloudStorage/Box-Box/finished_gallery_renamed/rename_log.csv"
-
-    CLASS_CODE_INDEX = [0, 2, 15, 6, 27]  # [People Animals Buildings Men Plants]
-    DELETE_EXISTING_FILES = True
 
     if not os.path.exists(OUTPUT_PATH):
         os.makedirs(OUTPUT_PATH, exist_ok=True)
