@@ -78,6 +78,7 @@ if __name__ == "__main__":
             new_name = make_name(img_name, start_index, class_code, suffix)
             renamed_files.append((img, new_name))
             shutil.copy(img_path, os.path.join(OUTPUT_PATH, new_name))
+            print(f"rename file: {img} to {new_name}")
             continue
 
         print(f"not matched: {img}")
